@@ -60,7 +60,7 @@ SwagFluence simply prints all generated documentation to the terminal.
 
 ## 📦 Requirements
 
-* **Go 1.18+**
+* **Go 1.24+**
 * A reachable Swagger/OpenAPI endpoint
 * Optional: Confluence REST API credentials
 
