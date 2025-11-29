@@ -54,7 +54,7 @@ type RequestBody struct {
 
 // MediaType describes media type with schema
 type MediaType struct {
-	Schema Schema `json:"schema"`
+	Schema *Schema `json:"schema"`
 }
 
 // Responses is a map of response codes to response objects
@@ -64,6 +64,7 @@ type Responses map[string]Response
 type Response struct {
 	Description string               `json:"description"`
 	Content     map[string]MediaType `json:"content,omitempty"`
+	Schema      *Schema              `json:"schema,omitempty"` // Swagger 2.0
 }
 
 // Schema describes a data schema

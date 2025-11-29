@@ -63,6 +63,9 @@ func (f *Formatter) FormatEndpointPage(path, method string, op swagger.Operation
 	// Parameters section
 	sb.WriteString(f.formatParametersSection(op.Parameters))
 
+	// Response section
+	sb.WriteString(f.formatResponsesSection(op.Responses, resolver))
+
 	// Close layout
 	sb.WriteString("</ac:layout-cell>\n")
 	sb.WriteString("</ac:layout-section>\n")
@@ -143,8 +146,8 @@ func (f *Formatter) formatRequestBodySection(op swagger.Operation, resolver *swa
 
 		for contentType, mediaType := range op.RequestBody.Content {
 			sb.WriteString(fmt.Sprintf("<p><strong>Content-Type:</strong> <code>%s</code></p>\n", contentType))
-			schemaToUse = &mediaType.Schema
-			resolvedSchema, _ := resolver.ResolveSchema(&mediaType.Schema)
+			schemaToUse = mediaType.Schema
+			resolvedSchema, _ := resolver.ResolveSchema(mediaType.Schema)
 			if resolvedSchema != nil {
 				sb.WriteString(f.formatSchemaTable(resolvedSchema))
 			}
@@ -181,6 +184,64 @@ func (f *Formatter) formatRequestBodySection(op swagger.Operation, resolver *swa
 
 	return sb.String()
 }
+
+// formatResponsesSection formats the responses documentation
+func (f *Formatter) formatResponsesSection(responses map[string]swagger.Response, resolver *swagger.Resolver) string {
+	if len(responses) == 0 {
+		return ""
+	}
+
+	var sb strings.Builder
+
+	sb.WriteString("<h3>Responses</h3>\n")
+
+	// Sort response codes for consistent output
+	var codes []string
+	for code := range responses {
+		codes = append(codes, code)
+	}
+
+	for _, code := range codes {
+		response := responses[code]
+		
+		sb.WriteString(fmt.Sprintf("<h4>%s - %s</h4>\n", code, response.Description))
+
+		// Handle OpenAPI 3.0 responses with content
+		if len(response.Content) > 0 {
+			for contentType, mediaType := range response.Content {
+				sb.WriteString(fmt.Sprintf("<p><strong>Content-Type:</strong> <code>%s</code></p>\n", contentType))
+				
+				if mediaType.Schema != nil {
+					resolvedSchema, _ := resolver.ResolveSchema(mediaType.Schema)
+					if resolvedSchema != nil {
+						sb.WriteString(f.formatSchemaTable(resolvedSchema))
+						
+						// Add response example JSON
+						exampleJSON := f.exampleGen.GenerateExampleJSON(resolvedSchema)
+						sb.WriteString("<h5>Example Response</h5>\n")
+						sb.WriteString(f.formatExampleJSON(exampleJSON))
+					}
+				}
+			}
+		}
+
+		// Handle Swagger 2.0 responses with direct schema
+		if response.Schema != nil {
+			resolvedSchema, _ := resolver.ResolveSchema(response.Schema)
+			if resolvedSchema != nil {
+				sb.WriteString(f.formatSchemaTable(resolvedSchema))
+				
+				// Add response example JSON
+				exampleJSON := f.exampleGen.GenerateExampleJSON(resolvedSchema)
+				sb.WriteString("<h5>Example Response</h5>\n")
+				sb.WriteString(f.formatExampleJSON(exampleJSON))
+			}
+		}
+	}
+
+	return sb.String()
+}
+
 
 // formatParametersSection formats the parameters table
 func (f *Formatter) formatParametersSection(params []swagger.Parameter) string {

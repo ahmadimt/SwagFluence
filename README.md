@@ -72,10 +72,10 @@ SwagFluence simply prints all generated documentation to the terminal.
 git clone <your-repo-url>
 cd <repo>
 go mod tidy
-go build -o SwagFluence main.go
+go build -o bin/SwagFluence ./cmd/swagfluence
 
 # Or cross-compile from another OS
-GOOS=linux GOARCH=amd64 go build -o SwagFluence main.go
+GOOS=linux GOARCH=amd64 go build -o bin/SwagFluence ./cmd/swagfluence
 ```
 ---
 
@@ -84,7 +84,7 @@ GOOS=linux GOARCH=amd64 go build -o SwagFluence main.go
 ### **Default Mode (No Confluence Upload)**
 
 ```bash
-./SwagFluence https://petstore.swagger.io/v2/swagger.json
+./bin/SwagFluence https://petstore.swagger.io/v2/swagger.json
 ```
 
 This will:
@@ -111,7 +111,7 @@ export CONFLUENCE_PARENT_PAGE_ID="123456"   # optional
 Run:
 
 ```bash
-./SwagFluence https://petstore.swagger.io/v2/swagger.json
+./bin/SwagFluence https://petstore.swagger.io/v2/swagger.json
 ```
 
 SwagFluence will:
@@ -158,7 +158,7 @@ SwagFluence will:
 ├── pkg
 │   └── converter
 │       └── converter.go
-├── README.md
+└── README.md
 ```
 
 ---
@@ -182,7 +182,6 @@ SwagFluence will:
 Contributions welcome!
 Ideas for enhancements:
 
-* Response schema documentation
 * YAML Swagger support
 
 ---
