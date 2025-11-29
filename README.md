@@ -1,4 +1,4 @@
-# 🌀 SwagFluence
+# 🌀 SwagFluence - Swagger to Confluence
 
 ***Disclaimer: This README was partially/fully generated with the assistance of AI.***
 
