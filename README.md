@@ -159,7 +159,6 @@ SwagFluence will:
 │   └── converter
 │       └── converter.go
 ├── README.md
-└── swagfluence
 ```
 
 ---
