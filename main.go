@@ -219,7 +219,7 @@ func main() {
 		fmt.Println("  CONFLUENCE_API_TOKEN")
 		fmt.Println("  CONFLUENCE_SPACE_KEY")
 		fmt.Println("  CONFLUENCE_PARENT_PAGE_ID (optional)")
-		fmt.Println("\n=================================\n")
+		fmt.Println("=================================")
 
 		for i, endpoint := range endpoints {
 			fmt.Printf("\n[%d] Page Title: %s\n", i+1, endpoint.Title)
@@ -227,7 +227,7 @@ func main() {
 			fmt.Println("---")
 			confluenceMarkup := generateOperationTable(endpoint.Path, endpoint.Method, endpoint.Operation)
 			fmt.Println(confluenceMarkup)
-			fmt.Println("\n=================================\n")
+			fmt.Println("=================================")
 		}
 	}
 }
