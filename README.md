@@ -125,10 +125,41 @@ SwagFluence will:
 ## 🏗 Project Structure
 
 ```
-.
-├── main.go
+├── bin
+│   └── SwagFluence
+├── cmd
+│   └── swagfluence
+│       └── main.go
+├── coverage.html
+├── coverage.out
+├── Dockerfile
 ├── go.mod
-└── README.md
+├── go.sum
+├── internal
+│   ├── config
+│   │   └── config.go
+│   ├── confluence
+│   │   ├── client.go
+│   │   ├── client_test.go
+│   │   ├── formatter.go
+│   │   └── types.go
+│   ├── example
+│   │   ├── generator.go
+│   │   └── generator_test.go
+│   └── swagger
+│       ├── parser.go
+│       ├── parser_test.go
+│       ├── resolver.go
+│       ├── resolver_test.go
+│       └── types.go
+├── LICENSE
+├── main.go
+├── Makefile
+├── pkg
+│   └── converter
+│       └── converter.go
+├── README.md
+└── swagfluence
 ```
 
 ---
